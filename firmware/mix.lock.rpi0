@@ -11,6 +11,7 @@
   "httpoison": {:hex, :httpoison, "0.11.2", "9e59f17a473ef6948f63c51db07320477bad8ba88cf1df60a3eee01150306665", [:mix], [{:hackney, "~> 1.8.0", [hex: :hackney, repo: "hexpm", optional: false]}], "hexpm"},
   "huex": {:hex, :huex, "0.7.0", "963b4a7db5b217bf04b737e6823f11dc7c48f569f57297f24a72478f9cab69b4", [:mix], [{:httpoison, "~> 0.11.0", [hex: :httpoison, repo: "hexpm", optional: false]}, {:nerves_ssdp_client, "~> 0.1", [hex: :nerves_ssdp_client, repo: "hexpm", optional: true]}, {:poison, "~> 3.0", [hex: :poison, repo: "hexpm", optional: false]}], "hexpm"},
   "idna": {:hex, :idna, "5.0.2", "ac203208ada855d95dc591a764b6e87259cb0e2a364218f215ad662daa8cd6b4", [:rebar3], [{:unicode_util_compat, "0.2.0", [hex: :unicode_util_compat, repo: "hexpm", optional: false]}], "hexpm"},
+  "logger_papertrail_backend": {:hex, :logger_papertrail_backend, "1.0.2", "9ebc566aedfd3e03a1ec1f0e1100a4534a670b928117a5eab9311b202ae19d70", [:mix], [], "hexpm"},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], [], "hexpm"},
   "mime": {:hex, :mime, "1.2.0", "78adaa84832b3680de06f88f0997e3ead3b451a440d183d688085be2d709b534", [:mix], [], "hexpm"},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], [], "hexpm"},

@@ -36,6 +36,15 @@ config :ui, UiWeb.Endpoint,
   render_errors: [accepts: ~w(html json)],
   code_reloader: false
 
+config :logger, :logger_papertrail_backend,
+  url: System.get_env("PAPERTRAIL_URL"),
+  level: :debug,
+  format: "$metadata $message"
+
+config :logger,
+  backends: [ :console, LoggerPapertrailBackend.Logger ],
+  level: :debug
+
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations
