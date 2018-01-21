@@ -1,7 +1,7 @@
 <ul>
   <%= for bridge <- @bridges do %>
     <li>
-      <span><%= bridge %></span>
+      <span><%= bridge.ip %></span>
     </li>
   <% end %>
 </ul>

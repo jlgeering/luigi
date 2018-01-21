@@ -6,7 +6,7 @@ defmodule UiWeb.PageController do
   end
 
   def hue(conn, _params) do
-    bridges = Net.SSDP.discover(:hue_bridges)
+    bridges = Hue.Bridges.get()
     render(conn, "hue.html", bridges: bridges)
   end
 

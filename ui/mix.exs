@@ -19,7 +19,11 @@ defmodule Ui.Mixfile do
   def application do
     [
       mod: {Ui.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [
+        :hue,
+        :logger,
+        :runtime_tools,
+      ]
     ]
   end
 
