@@ -5,6 +5,7 @@ defmodule UiWeb.Schema do
 
   object :hue_bridge do
     field :ip, non_null(:string)
+    field :with_config, non_null(:boolean)
   end
 
   query do
