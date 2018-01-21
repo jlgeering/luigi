@@ -1,18 +1,10 @@
 defmodule Hue do
-  @moduledoc """
-  Documentation for Hue.
-  """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Hue.hello
-      :world
-
-  """
-  def hello do
-    :world
+  def all_bridges() do
+    for bridge <- Net.SSDP.discover(:hue_bridges) do
+      # TODO add configured: bool
+      %{ip: bridge}
+    end
   end
+
 end

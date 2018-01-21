@@ -22,6 +22,7 @@ defmodule Hue.Mixfile do
   defp deps do
     [
       {:huex, "~> 0.7.0"},
+      {:net, path: "../net"},
     ]
   end
 end
