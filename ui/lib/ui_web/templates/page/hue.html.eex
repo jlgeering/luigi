@@ -1,0 +1,7 @@
+<ul>
+  <%= for bridge <- @bridges do %>
+    <li>
+      <span><%= bridge %></span>
+    </li>
+  <% end %>
+</ul>
