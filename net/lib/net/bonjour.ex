@@ -14,6 +14,7 @@ defmodule Net.Bonjour do
   def init(_opts) do
     # Register for updates from system registry
     SystemRegistry.register()
+    init_mdns(@domain)
 
     {:ok, %{ip: nil}}
   end
@@ -33,6 +34,17 @@ defmodule Net.Bonjour do
     Logger.info("IP address for #{@interface} changed to #{new_ip}")
     update_mdns(new_ip, @domain)
     {:noreply, %{state | ip: new_ip}}
+  end
+
+  defp init_mdns(nil), do: :ok
+
+  defp init_mdns(mdns_domain) do
+    Mdns.Server.add_service(%Mdns.Server.Service{
+      domain: mdns_domain,
+      data: :ip,
+      ttl: 120,
+      type: :a
+    })
   end
 
   defp update_mdns(_ip, nil), do: :ok
