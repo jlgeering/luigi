@@ -5,6 +5,8 @@ defmodule Firmware.Application do
     # import Supervisor.Spec, warn: false
 
     children = [
+      # TODO move to :net app
+      {Net.Bonjour, []},
     ]
 
     opts = [strategy: :one_for_one, name: Firmware.Supervisor]

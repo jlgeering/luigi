@@ -60,6 +60,7 @@ defmodule Firmware.MixProject do
       {:nerves_network, "~> 0.3"},
       {:logger_papertrail_backend, "~> 1.0"},
       {:ui, path: "../ui"},
+      {:net, path: "../net"},
     ] ++ system(target)
   end
 

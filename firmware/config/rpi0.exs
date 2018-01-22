@@ -1,6 +1,7 @@
 use Mix.Config
 
 config :firmware, interface: :wlan0
+config :net, bonjour: "luigi-rpi0.local"
 
 config :nerves_network, :default,
   wlan0: [
