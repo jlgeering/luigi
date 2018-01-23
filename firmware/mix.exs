@@ -57,6 +57,7 @@ defmodule Firmware.MixProject do
     [
       {:bootloader, "~> 0.1"},
       {:nerves_runtime, "~> 0.5"},
+      {:nerves_firmware_ssh, "~> 0.3"},
       {:nerves_network, "~> 0.3"},
       {:logger_papertrail_backend, "~> 1.0"},
       {:ui, path: "../ui"},

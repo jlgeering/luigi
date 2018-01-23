@@ -50,3 +50,7 @@ config :logger,
 # Uncomment to use target specific configurations
 
 import_config "#{Mix.Project.config[:target]}.exs"
+
+# wilcard imports will not fail if file is missing
+import_config "#{Mix.Project.config[:target]}.secret*.exs"
+import_config "l*cal.secrets.exs"

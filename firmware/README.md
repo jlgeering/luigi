@@ -1,5 +1,11 @@
 # Firmware
 
+## Getting Started
+
+* Install https://github.com/nerves-project/nerves_bootstrap
+
+
+
 **TODO: Add description**
 
 ## Targets
