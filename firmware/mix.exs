@@ -83,5 +83,6 @@ defmodule Firmware.MixProject do
       "deps.precompile": ["nerves.precompile", "deps.precompile"],
       "deps.loadpaths": ["deps.loadpaths", "nerves.loadpaths"]
     ]
+    |> Nerves.Bootstrap.add_aliases()
   end
 end
