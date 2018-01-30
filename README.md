@@ -2,11 +2,11 @@
 
 Luigi is a home automation bot written in Elixir.
 
-## Components
+## Components
 
 * [Luigi UI](ui/README.md)
 * [Nerves Firmware](firmware/README.md)
 
-## How to contribute
+## How to contribute
 
-Well...
+TBD
