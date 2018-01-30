@@ -2,9 +2,7 @@
 
 ## Getting Started
 
-* Install https://github.com/nerves-project/nerves_bootstrap
-
-
+* Install Nerves by following the instructions in https://hexdocs.pm/nerves/installation.html
 
 **TODO: Add description**
 
@@ -22,12 +20,14 @@ https://hexdocs.pm/nerves/targets.html#content
 
 ## Getting Started
 
-To start your Nerves app:
-  * `export MIX_TARGET=my_target` or prefix every command with
-    `MIX_TARGET=my_target`. For example, `MIX_TARGET=rpi3`
-  * Install dependencies with `mix deps.get`
-  * Create firmware with `mix firmware`
-  * Burn to an SD card with `mix firmware.burn`
+To burn your firmware:
+
+```
+export MIX_TARGET=<target> # rpi3 for raspberry pi 3
+mix deps.get
+mix firmware
+mix firmware.burn
+```
 
 ## Learn more
 
