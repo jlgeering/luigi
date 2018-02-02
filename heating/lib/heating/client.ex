@@ -4,6 +4,7 @@ defmodule Heating.Client do
 
   def turn_on() do
     Logger.debug("turning on")
+    HTTPoison.get!("http://10.10.10.10/coucou")
   end
 
 end
