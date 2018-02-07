@@ -1,4 +1,4 @@
-# Ui
+# UI
 
 To start your Phoenix server:
 
