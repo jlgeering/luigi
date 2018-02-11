@@ -7,4 +7,8 @@ defmodule Heating.Client do
     HTTPoison.get!("http://10.10.10.10/coucou")
   end
 
+  def turn_off() do
+
+  end
+
 end

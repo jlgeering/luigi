@@ -10,6 +10,8 @@ defmodule Heating.Application do
     children = [
       # Starts a worker by calling: Heating.Worker.start_link(arg)
       # {Heating.Worker, arg},
+      Heating.Connection,
+      Heating.Tracker,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

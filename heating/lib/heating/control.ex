@@ -5,7 +5,7 @@ defmodule Heating.Control do
 
   @name __MODULE__
 
-  def start_control do
+  def start_link(_) do
     GenServer.start_link(__MODULE__, %{:timer => nil, :temperature => nil}, name: @name)
   end
 
@@ -32,6 +32,10 @@ defmodule Heating.Control do
   def handle_info(:work, state) do
     # Do the work you desire here
     Logger.debug("Sending signal: " <> inspect state)
+
+    # 1. get temp from temp tracker
+    # 2. decide whether to turn on or off
+    # 3. give order using control
 
     # Start the timer again
     timer = Process.send_after(self(), :work, 10 * 1000)
