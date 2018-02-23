@@ -45,7 +45,7 @@ defmodule Heating.Tracker do
   end
 
   defp temperature_url() do
-    "http://pipiriukas.local/temperature"
+    "http://192.168.0.52/temperature"
   end
 
   defp handle_json({:ok, %{status_code: 200, body: body}}) do
