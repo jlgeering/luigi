@@ -11,7 +11,8 @@ defmodule Heating.Application do
       # Starts a worker by calling: Heating.Worker.start_link(arg)
       # {Heating.Worker, arg},
       Heating.Connection,
-      Heating.Tracker,
+      Supervisor.child_spec({Heating.Tracker, ["http://192.168.0.52/temperature", %Temperature{}, :temperature]}, id: :temperature_tracker),
+      Supervisor.child_spec({Heating.Tracker, ["http://192.168.0.52/detector/latest", %HeatingState{}, :latest]}, id: :heating_tracker)
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
