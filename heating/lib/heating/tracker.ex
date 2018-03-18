@@ -3,11 +3,9 @@ defmodule Heating.Tracker do
 
   require Logger
 
-  @interval 1 * 60 # 1 minute
-
-  def start_link([url, data, field]) do
+  def start_link([url, data, field, interval]) do
     GenServer.start_link(__MODULE__, %{:url => url, :data => data,
-      :field => field, :timer => nil, :response => nil})
+      :field => field, :interval => interval, :timer => nil, :response => nil})
   end
 
   def init(state) do
@@ -17,7 +15,7 @@ defmodule Heating.Tracker do
 
   def handle_info(:work, state) do
     # Restart the timer first to avoid drift
-    timer = Process.send_after(self(), :work, @interval * 1000)
+    timer = Process.send_after(self(), :work, state.interval * 1000)
 
     Logger.debug("Fetching data: " <> inspect state)
     response = fetch_data(state.url, state.field)
