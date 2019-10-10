@@ -21,9 +21,9 @@ defmodule Net.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:mdns, "~> 0.1.6"},
+      {:mdns, "~> 1.0"},
       {:nerves_ssdp_client, "~> 0.1.0"},
-      {:system_registry, "~> 0.6.0"},
+      {:system_registry, "~> 0.8.0"},
     ]
   end
 end

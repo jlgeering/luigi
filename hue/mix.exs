@@ -22,7 +22,7 @@ defmodule Hue.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:huex, "~> 0.7.0"},
+      {:huex, "~> 0.8"},
       {:net, path: "../net"},
     ]
   end
