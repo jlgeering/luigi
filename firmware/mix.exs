@@ -1,13 +1,16 @@
 defmodule Firmware.MixProject do
   use Mix.Project
 
-  @target System.get_env("MIX_TARGET") || "host"
+  @app :luigi
+  @version "0.2.0"
+  # @all_targets [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a, :rpi4, :bbb, :x86_64]
+  @all_targets [:rpi0, :rpi3]
 
   Mix.shell().info([
     :green,
     """
     Mix environment
-      MIX_TARGET:   #{@target}
+      MIX_TARGET:   #{Mix.target()}
       MIX_ENV:      #{Mix.env()}
     """,
     :reset
@@ -15,74 +18,70 @@ defmodule Firmware.MixProject do
 
   def project do
     [
-      app: :firmware,
-      version: "0.1.0",
-      elixir: "~> 1.4",
-      target: @target,
-      archives: [nerves_bootstrap: "~> 0.6"],
-      deps_path: "deps/#{@target}",
-      build_path: "_build/#{@target}",
-      lockfile: "mix.lock.#{@target}",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
-      aliases: aliases(@target),
-      deps: deps()
+      app: @app,
+      version: @version,
+      elixir: "~> 1.9",
+      archives: [nerves_bootstrap: "~> 1.6"],
+      start_permanent: Mix.env() == :prod,
+      build_embedded: true,
+      aliases: [loadconfig: [&bootstrap/1]],
+      deps: deps(),
+      releases: [{@app, release()}],
+      preferred_cli_target: [run: :host, test: :host],
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
-  def application, do: application(@target)
-
-  # Specify target specific application configurations
-  # It is common that the application start function will start and supervise
-  # applications which could cause the host to fail. Because of this, we only
-  # invoke Firmware.start/2 when running on a target.
-  def application("host") do
-    [extra_applications: [:logger]]
+  # Starting nerves_bootstrap adds the required aliases to Mix.Project.config()
+  # Aliases are only added if MIX_TARGET is set.
+  def bootstrap(args) do
+    Application.start(:nerves_bootstrap)
+    Mix.Task.run("loadconfig", args)
   end
 
-  def application(_target) do
-    [mod: {Firmware.Application, []}, extra_applications: [:logger]]
+  # Run "mix help compile.app" to learn about applications.
+  def application do
+    [
+      mod: {Firmware.Application, []},
+      extra_applications: [:logger, :runtime_tools]
+    ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    [{:nerves, "~> 0.7", runtime: false}] ++ deps(@target)
-  end
-
-  # Specify target specific dependencies
-  defp deps("host"), do: []
-
-  defp deps(target) do
     [
-      {:bootloader, "~> 0.1"},
-      {:nerves_runtime, "~> 0.5"},
-      {:nerves_firmware_ssh, "~> 0.3"},
-      {:nerves_network, "~> 0.3"},
-      {:logger_papertrail_backend, "~> 1.0"},
-      {:ui, path: "../ui"},
-      {:net, path: "../net"},
-    ] ++ system(target)
-  end
+      # Dependencies for all targets
+      {:nerves, "~> 1.5.0", runtime: false},
+      {:shoehorn, "~> 0.6"},
+      {:ring_logger, "~> 0.6"},
+      {:toolshed, "~> 0.2"},
+      # {:ui, path: "../ui"},
+      # {:net, path: "../net"},
 
-  defp system("rpi"), do: [{:nerves_system_rpi, ">= 0.0.0", runtime: false}]
-  defp system("rpi0"), do: [{:nerves_system_rpi0, ">= 0.0.0", runtime: false}]
-  defp system("rpi2"), do: [{:nerves_system_rpi2, ">= 0.0.0", runtime: false}]
-  defp system("rpi3"), do: [{:nerves_system_rpi3, ">= 0.0.0", runtime: false}]
-  defp system("bbb"), do: [{:nerves_system_bbb, ">= 0.0.0", runtime: false}]
-  defp system("ev3"), do: [{:nerves_system_ev3, ">= 0.0.0", runtime: false}]
-  defp system("qemu_arm"), do: [{:nerves_system_qemu_arm, ">= 0.0.0", runtime: false}]
-  defp system("x86_64"), do: [{:nerves_system_x86_64, ">= 0.0.0", runtime: false}]
-  defp system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
+      # Dependencies for all targets except :host
+      {:nerves_runtime, "~> 0.6", targets: @all_targets},
+      {:nerves_init_gadget, "~> 0.4", targets: @all_targets},
+      # {:nerves_firmware_ssh, "~> 0.3"},
+      # {:nerves_network, "~> 0.3"},
 
-  # We do not invoke the Nerves Env when running on the Host
-  defp aliases("host"), do: []
-
-  defp aliases(_target) do
-    [
-      "deps.precompile": ["nerves.precompile", "deps.precompile"],
-      "deps.loadpaths": ["deps.loadpaths", "nerves.loadpaths"]
+      # Dependencies for specific targets
+      {:nerves_system_rpi, "~> 1.8", runtime: false, targets: :rpi},
+      {:nerves_system_rpi0, "~> 1.8", runtime: false, targets: :rpi0},
+      {:nerves_system_rpi2, "~> 1.8", runtime: false, targets: :rpi2},
+      {:nerves_system_rpi3, "~> 1.8", runtime: false, targets: :rpi3},
+      {:nerves_system_rpi3a, "~> 1.8", runtime: false, targets: :rpi3a},
+      {:nerves_system_rpi4, "~> 1.8", runtime: false, targets: :rpi4},
+      {:nerves_system_bbb, "~> 2.3", runtime: false, targets: :bbb},
+      {:nerves_system_x86_64, "~> 1.8", runtime: false, targets: :x86_64},
     ]
-    |> Nerves.Bootstrap.add_aliases()
+  end
+
+  def release do
+    [
+      overwrite: true,
+      cookie: "#{@app}_cookie",
+      include_erts: &Nerves.Release.erts/0,
+      steps: [&Nerves.Release.init/1, :assemble],
+      strip_beams: Mix.env() == :prod
+    ]
   end
 end
